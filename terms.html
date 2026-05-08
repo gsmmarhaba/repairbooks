@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - RepairBooks</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #f97316;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            padding: 0;
+            margin: 0;
+            background-image: radial-gradient(circle at 50% 0%, rgba(249, 115, 22, 0.05), transparent 50%);
+        }
+        nav {
+            padding: 1.5rem 5%;
+            border-bottom: 1px solid var(--glass-border);
+            background: rgba(11, 15, 25, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            text-align: center;
+            position: sticky;
+            top: 0;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .logo span { color: var(--primary); }
+        
+        .container {
+            max-width: 800px;
+            margin: 4rem auto;
+            padding: 4rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .last-updated {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            font-size: 0.9rem;
+        }
+        h2 {
+            font-size: 1.3rem;
+            color: var(--text-main);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--primary);
+            padding-left: 10px;
+        }
+        p, ul {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+        ul {
+            padding-left: 1.5rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 2rem 1rem;
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+            </svg>
+            Repair<span>Books</span>
+        </a>
+    </nav>
+
+    <div class="container">
+        <h1>Terms of Service</h1>
+        <p class="last-updated">Last Updated: May 2026</p>
+
+        <h2>1. Acceptance of Terms</h2>
+        <p>By downloading, installing, or using the RepairBooks application ("App"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the App.</p>
+
+        <h2>2. Description of Service</h2>
+        <p>RepairBooks is a Point of Sale (POS) and shop management utility designed for mobile and electronics repair shops. The App operates on an "offline-first" architecture, meaning all core functionalities process and store data locally on your device rather than on our servers.</p>
+
+        <h2>3. Data Ownership and Google Drive Integration</h2>
+        <p>You retain full ownership of all data you enter into RepairBooks. To prevent data loss, the App offers a cloud backup feature utilizing the Google Drive API.</p>
+        <ul>
+            <li><strong>Your Responsibility:</strong> You are solely responsible for ensuring your data is backed up. We do not host, store, or have access to your shop's database on our own servers.</li>
+            <li><strong>Google Drive:</strong> Your backups are stored securely within your personal Google Drive account. You must maintain access to this Google account to restore your data.</li>
+        </ul>
+
+        <h2>4. User Responsibilities</h2>
+        <p>As the App stores data locally on your device, you are responsible for maintaining the physical and digital security of your device. We strongly recommend using device lock screens, strong passwords, and keeping your Google Account secure.</p>
+
+        <h2>5. Limitation of Liability</h2>
+        <p>RepairBooks is provided "as is" without warranties of any kind. In no event shall the developers of RepairBooks be liable for any direct, indirect, incidental, or consequential damages arising from the use of the App, including but not limited to:</p>
+        <ul>
+            <li>Loss of financial data or customer records.</li>
+            <li>Device failure resulting in local data loss.</li>
+            <li>Accidental deletion of Google Drive backups.</li>
+        </ul>
+
+        <h2>6. Changes to Terms</h2>
+        <p>We reserve the right to modify these terms at any time. We will notify users of any significant changes by updating the "Last Updated" date at the top of this page. Continued use of the App constitutes acceptance of the modified terms.</p>
+
+        <h2>7. Contact Information</h2>
+        <p>If you have any questions regarding these Terms of Service or our data practices, please contact us at <a href="mailto:support@repairbooks.com">support@repairbooks.com</a> or review our <a href="privacy.html">Privacy Policy</a>.</p>
+    </div>
+
+</body>
+</html>
+
