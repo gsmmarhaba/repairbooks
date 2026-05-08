@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RepairBooks - The Ultimate POS for Repair Shops</title>
+    <meta name="description" content="RepairBooks is a secure, offline-first POS and management system for mobile and electronics repair shops. Track jobs, manage inventory, and backup to Google Drive.">
+    
+    <!-- Modern Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS resets and variables */
+        :root {
+            --bg-color: #0b0f19; /* Deep dark blue/black */
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #f97316; /* Brand Orange */
+            --primary-hover: #ea580c;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            /* Subtle glowing gradients in the background */
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(249, 115, 22, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(56, 189, 248, 0.05), transparent 25%);
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            background: rgba(11, 15, 25, 0.7);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span { color: var(--primary); }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2.5rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--text-main); }
+
+        /* Hero Section */
+        header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            max-width: 900px;
+        }
+
+        header p {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            color: var(--text-muted);
+            max-width: 650px;
+            margin-bottom: 3rem;
+        }
+
+        .cta-btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px -10px rgba(249, 115, 22, 0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .cta-btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 20px 40px -10px rgba(249, 115, 22, 0.8);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 4rem;
+            font-weight: 800;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Glassmorphism Cards */
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 2.5rem;
+            border-radius: 24px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(249, 115, 22, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 40px -20px rgba(0,0,0,0.5);
+        }
+
+        .card:hover::before { opacity: 1; }
+
+        .card-icon {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 16px;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--glass-border);
+            padding: 4rem 5% 2rem;
+            text-align: center;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .footer-links {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover { color: var(--primary); }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* Could add a hamburger menu here later */
+            .features { padding: 4rem 5%; }
+            .card { padding: 2rem; }
+            .footer-links { flex-direction: column; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+            </svg>
+            Repair<span>Books</span>
+        </a>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <!-- Links to the privacy policy page you already created -->
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="mailto:support@repairbooks.com">Contact</a>
+        </div>
+    </nav>
+
+    <header>
+        <h1 class="reveal">The Professional POS for Modern Repair Shops</h1>
+        <p class="reveal" style="transition-delay: 0.1s;">Manage your jobs, track your inventory, and control your finances securely from your device. No cloud subscriptions required. Your data belongs to you.</p>
+        <div class="reveal" style="transition-delay: 0.2s;">
+            <!-- Update this link with your Play Store URL once published -->
+            <a href="#" class="cta-btn">Get it on Google Play</a>
+        </div>
+    </header>
+
+    <section id="features" class="features">
+        <h2 class="section-title reveal">Everything you need to run your shop</h2>
+        <div class="grid">
+            <div class="card reveal" style="transition-delay: 0.1s;">
+                <div class="card-icon">📱</div>
+                <h3>Intelligent Job Tracking</h3>
+                <p>Track every device from intake to delivery. Manage statuses, assign technicians, and never lose track of a customer's repair again.</p>
+            </div>
+            <div class="card reveal" style="transition-delay: 0.2s;">
+                <div class="card-icon">💰</div>
+                <h3>Advanced Financial Ledger</h3>
+                <p>Manage customer balances and daily cash flow. Our intelligent FIFO credit system automatically applies payments to the oldest pending balances.</p>
+            </div>
+            <div class="card reveal" style="transition-delay: 0.3s;">
+                <div class="card-icon">🔒</div>
+                <h3>Offline First & Secure</h3>
+                <p>RepairBooks runs entirely on your device. Complete privacy with zero mandatory cloud subscriptions. You own your customer data.</p>
+            </div>
+            <div class="card reveal" style="transition-delay: 0.4s;">
+                <div class="card-icon">☁️</div>
+                <h3>Google Drive Sync</h3>
+                <p>Securely backup your shop's encrypted database directly to your personal Google Drive account. Restore your shop's data anytime, anywhere.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="mailto:support@repairbooks.com">Support</a>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">&copy; 2026 RepairBooks. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth Scroll Animation Logic
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        
+        window.addEventListener("scroll", reveal);
+        // Trigger once on load to show header elements
+        setTimeout(reveal, 100);
+    </script>
+</body>
+</html>
