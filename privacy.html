@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - RepairBooks</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #f97316;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            padding: 0;
+            margin: 0;
+            background-image: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.05), transparent 50%);
+        }
+        nav {
+            padding: 1.5rem 5%;
+            border-bottom: 1px solid var(--glass-border);
+            background: rgba(11, 15, 25, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .logo span { color: var(--primary); }
+        
+        .container {
+            max-width: 800px;
+            margin: 4rem auto;
+            padding: 4rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .last-updated {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            font-size: 0.9rem;
+        }
+        h2 {
+            font-size: 1.3rem;
+            color: var(--text-main);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--primary);
+            padding-left: 10px;
+        }
+        p, ul {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+        ul {
+            padding-left: 1.5rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+        
+        /* Highlight box specifically for Google Reviewers */
+        .google-highlight {
+            background: rgba(249, 115, 22, 0.08);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            box-shadow: inset 0 0 20px rgba(249, 115, 22, 0.02);
+        }
+        .google-highlight h3 {
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 1.15rem;
+            border: none;
+            padding: 0;
+        }
+        .google-highlight p {
+            margin-bottom: 0;
+            color: var(--text-main);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 2rem 1rem;
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+            </svg>
+            Repair<span>Books</span>
+        </a>
+    </nav>
+
+    <div class="container">
+        <h1>Privacy Policy</h1>
+        <p class="last-updated">Last Updated: May 2026</p>
+
+        <p>Your privacy is critically important to us. This Privacy Policy explains how RepairBooks ("we", "us", or "our") handles your data when you use our mobile application.</p>
+
+        <h2>1. Local Data Storage (Offline First)</h2>
+        <p>RepairBooks is designed as an "offline-first" application. This means that all of your primary data—including customer details, repair jobs, financial records, and inventory—is stored <strong>locally on your device</strong>. We do not transmit, host, or store this local database on our servers.</p>
+
+        <div class="google-highlight">
+            <h3>2. Google Workspace APIs and Google Drive Data</h3>
+            <p>To prevent data loss, RepairBooks offers an optional cloud backup feature. <strong>RepairBooks uses the Google Drive API (`drive.appdata` scope) solely for the purpose of creating a hidden, private backup of your shop's database on your personal Google Drive.</strong> We do not access your personal files, nor do we store, transmit, or share your Google Drive data on our own servers. This backup data is strictly between your device and your personal Google account.</p>
+        </div>
+
+        <h2>3. Information We Collect</h2>
+        <p>While your shop data remains local, we may collect limited information necessary to provide core app functionality:</p>
+        <ul>
+            <li><strong>Phone Number:</strong> We use Firebase Authentication to securely verify your identity via OTP (One-Time Password) when you register or log in.</li>
+            <li><strong>Crash Analytics:</strong> We may use automated crash reporting tools (such as Firebase Crashlytics) to collect anonymous diagnostic data if the app crashes, helping us fix bugs and improve performance.</li>
+        </ul>
+
+        <h2>4. Third-Party Services</h2>
+        <p>The App does use third-party services that may collect information used to identify you. You can review the privacy policies of the third-party service providers used by the App here:</p>
+        <ul>
+            <li><a href="https://policies.google.com/privacy" target="_blank">Google Play Services</a></li>
+            <li><a href="https://firebase.google.com/support/privacy" target="_blank">Google Analytics for Firebase</a></li>
+        </ul>
+
+        <h2>5. Data Retention and Deletion</h2>
+        <p>Because your shop's database is stored locally on your device and on your personal Google Drive, you have complete control over it. You can delete your data at any time by uninstalling the app, clearing the app's local storage, and deleting the backup file from your Google Drive via your Google Account settings.</p>
+
+        <h2>6. Changes to This Privacy Policy</h2>
+        <p>We may update our Privacy Policy from time to time. You are advised to review this page periodically for any changes. We will notify you of any changes by updating the "Last Updated" date at the top of this page.</p>
+
+        <h2>7. Contact Us</h2>
+        <p>If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at <a href="mailto:youfixers@gmail.com">youfixers@gmail.com</a> or review our <a href="terms.html">Terms of Service</a>.</p>
+    </div>
+
+</body>
+</html>
