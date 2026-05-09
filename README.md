@@ -1,2 +1,1 @@
-# repairbooks-privacy
-Privacy Policy for the RepairBooks app
+Welcome To RepairBooks App
