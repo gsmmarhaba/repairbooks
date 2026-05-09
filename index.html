@@ -1,326 +1,2159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="google-site-verification" content="wPKKmpO0Jg9yfqDJ33YfX_Py9Cdm95RoOEUVHULpBlw" />
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RepairBooks - The Ultimate POS for Repair Shops</title>
-    <meta name="description" content="RepairBooks is a secure, offline-first POS and management system for mobile and electronics repair shops. Track jobs, manage inventory, and backup to Google Drive.">
-    
-    <!-- Modern Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    
-    <style>
-        /* CSS resets and variables */
-        :root {
-            --bg-color: #0b0f19; /* Deep dark blue/black */
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --primary: #f97316; /* Brand Orange */
-            --primary-hover: #ea580c;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-        }
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-            /* Subtle glowing gradients in the background */
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(249, 115, 22, 0.08), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(56, 189, 248, 0.05), transparent 25%);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RepairBooks — Free Repair Shop POS & Management App</title>
+<meta name="description" content="RepairBooks is a 100% free, offline-first POS system for mobile, laptop, electronics & UPS repair shops. Track jobs, manage inventory, send WhatsApp receipts, and backup to Google Drive.">
+<meta name="keywords" content="repair shop management app, mobile repair POS, repair shop software free, job tracking app, khata system repair shop, google drive backup POS">
+<meta property="og:title" content="RepairBooks — Free Repair Shop POS & Management App">
+<meta property="og:description" content="Manage jobs, inventory, staff & finances for any repair shop. 100% Free. Offline-first. Secure.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://repairbooks.com/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Bebas+Neue&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
-        /* Navigation */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 5%;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--glass-border);
-            background: rgba(11, 15, 25, 0.7);
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--text-main);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+<style>
+/* ============================================================
+   DESIGN TOKENS
+============================================================ */
+:root {
+  --bg:         #060810;
+  --bg-2:       #0c1020;
+  --bg-card:    rgba(255,255,255,0.032);
+  --border:     rgba(255,255,255,0.07);
+  --border-h:   rgba(249,115,22,0.4);
+  --orange:     #f97316;
+  --orange-d:   #ea580c;
+  --orange-gl:  rgba(249,115,22,0.15);
+  --cyan:       #22d3ee;
+  --cyan-gl:    rgba(34,211,238,0.08);
+  --green:      #4ade80;
+  --yellow:     #fbbf24;
+  --red:        #f87171;
+  --text:       #f1f5f9;
+  --muted:      #64748b;
+  --muted-l:    #94a3b8;
+  --radius-sm:  12px;
+  --radius-md:  20px;
+  --radius-lg:  28px;
+  --radius-xl:  40px;
+  --shadow-o:   0 0 60px -10px rgba(249,115,22,0.35);
+  --shadow-c:   0 0 60px -10px rgba(34,211,238,0.25);
+  --transition: 0.4s cubic-bezier(0.4,0,0.2,1);
+}
 
-        .logo span { color: var(--primary); }
+/* ============================================================
+   RESET & BASE
+============================================================ */
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
 
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            margin-left: 2.5rem;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.65;
+}
 
-        .nav-links a:hover { color: var(--text-main); }
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 10% 60%, rgba(249,115,22,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 90% 20%, rgba(34,211,238,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 50% 100%, rgba(249,115,22,0.04) 0%, transparent 50%);
+  pointer-events:none;
+  z-index:0;
+}
 
-        /* Hero Section */
-        header {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
-            position: relative;
-        }
+/* ============================================================
+   NOISE OVERLAY
+============================================================ */
+body::after {
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:0;
+  opacity:0.4;
+}
 
-        h1 {
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            max-width: 900px;
-        }
+section, nav, header, footer { position:relative; z-index:1; }
 
-        header p {
-            font-size: clamp(1.1rem, 2vw, 1.3rem);
-            color: var(--text-muted);
-            max-width: 650px;
-            margin-bottom: 3rem;
-        }
+/* ============================================================
+   CANVAS PARTICLES
+============================================================ */
+#particles-canvas {
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
 
-        .cta-btn {
-            background-color: var(--primary);
-            color: white;
-            padding: 1.2rem 3rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 30px -10px rgba(249, 115, 22, 0.6);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
+/* ============================================================
+   NAV
+============================================================ */
+nav {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:1.2rem 6%;
+  position:fixed;
+  width:100%;
+  top:0;
+  z-index:1000;
+  transition: background var(--transition), box-shadow var(--transition);
+}
 
-        .cta-btn:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 20px 40px -10px rgba(249, 115, 22, 0.8);
-        }
+nav.scrolled {
+  background:rgba(6,8,16,0.88);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  box-shadow:0 4px 40px rgba(0,0,0,0.4);
+}
 
-        /* Features Section */
-        .features {
-            padding: 8rem 5%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+.logo {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.9rem;
+  letter-spacing:2px;
+  color:var(--text);
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
 
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 4rem;
-            font-weight: 800;
-        }
+.logo-icon {
+  width:36px; height:36px;
+  background:linear-gradient(135deg,var(--orange),var(--orange-d));
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  box-shadow:0 4px 20px rgba(249,115,22,0.5);
+}
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
+.logo span { color:var(--orange); }
 
-        /* Glassmorphism Cards */
-        .card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            padding: 2.5rem;
-            border-radius: 24px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
+.nav-links {
+  display:flex;
+  align-items:center;
+  gap:2rem;
+}
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
+.nav-links a {
+  color:var(--muted-l);
+  text-decoration:none;
+  font-weight:500;
+  font-size:0.92rem;
+  transition:color 0.3s;
+  letter-spacing:0.3px;
+}
 
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(249, 115, 22, 0.3);
-            background: rgba(255, 255, 255, 0.05);
-            box-shadow: 0 20px 40px -20px rgba(0,0,0,0.5);
-        }
+.nav-links a:hover { color:var(--text); }
 
-        .card:hover::before { opacity: 1; }
+.nav-cta {
+  background:var(--orange);
+  color:#fff !important;
+  padding:0.6rem 1.4rem;
+  border-radius:50px;
+  font-weight:600 !important;
+  font-size:0.88rem !important;
+  transition:all 0.3s !important;
+  box-shadow:0 4px 20px rgba(249,115,22,0.35);
+}
 
-        .card-icon {
-            font-size: 2.8rem;
-            margin-bottom: 1.5rem;
-            display: inline-block;
-            background: rgba(255,255,255,0.05);
-            padding: 15px;
-            border-radius: 16px;
-        }
+.nav-cta:hover {
+  background:var(--orange-d) !important;
+  transform:translateY(-2px);
+  box-shadow:0 8px 30px rgba(249,115,22,0.5) !important;
+}
 
-        .card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
+/* Hamburger */
+.ham {
+  display:none;
+  flex-direction:column;
+  gap:5px;
+  cursor:pointer;
+  padding:6px;
+}
 
-        .card p {
-            color: var(--text-muted);
-            font-size: 1rem;
-            line-height: 1.7;
-        }
+.ham span {
+  display:block;
+  width:24px;
+  height:2px;
+  background:var(--text);
+  border-radius:2px;
+  transition:all 0.3s;
+}
 
-        /* Footer */
-        footer {
-            border-top: 1px solid var(--glass-border);
-            padding: 4rem 5% 2rem;
-            text-align: center;
-            background: rgba(0,0,0,0.2);
-        }
+.ham.open span:nth-child(1){ transform:rotate(45deg) translate(5px,5px); }
+.ham.open span:nth-child(2){ opacity:0; }
+.ham.open span:nth-child(3){ transform:rotate(-45deg) translate(5px,-5px); }
 
-        .footer-links {
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-        }
+/* Mobile menu */
+.mobile-menu {
+  display:none;
+  position:fixed;
+  top:0; left:0; right:0; bottom:0;
+  background:rgba(6,8,16,0.97);
+  backdrop-filter:blur(20px);
+  z-index:999;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:2.5rem;
+}
 
-        .footer-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-        
-        .footer-links a:hover { color: var(--primary); }
+.mobile-menu.open { display:flex; }
 
-        /* Scroll Reveal Animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
-        }
+.mobile-menu a {
+  color:var(--text);
+  text-decoration:none;
+  font-size:1.6rem;
+  font-family:'Bebas Neue',sans-serif;
+  letter-spacing:2px;
+  transition:color 0.3s;
+}
 
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+.mobile-menu a:hover { color:var(--orange); }
 
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .nav-links { display: none; } /* Could add a hamburger menu here later */
-            .features { padding: 4rem 5%; }
-            .card { padding: 2rem; }
-            .footer-links { flex-direction: column; gap: 1rem; }
-        }
-    </style>
+/* ============================================================
+   SCROLL REVEAL
+============================================================ */
+.reveal {
+  opacity:0;
+  transform:translateY(50px);
+  transition:opacity 0.8s cubic-bezier(0.4,0,0.2,1), transform 0.8s cubic-bezier(0.4,0,0.2,1);
+}
+
+.reveal.active { opacity:1; transform:translateY(0); }
+
+.reveal-left {
+  opacity:0;
+  transform:translateX(-60px);
+  transition:opacity 0.9s cubic-bezier(0.4,0,0.2,1), transform 0.9s cubic-bezier(0.4,0,0.2,1);
+}
+
+.reveal-right {
+  opacity:0;
+  transform:translateX(60px);
+  transition:opacity 0.9s cubic-bezier(0.4,0,0.2,1), transform 0.9s cubic-bezier(0.4,0,0.2,1);
+}
+
+.reveal-left.active, .reveal-right.active { opacity:1; transform:translateX(0); }
+
+/* ============================================================
+   HERO
+============================================================ */
+header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 6% 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 16px;
+  border:1px solid rgba(249,115,22,0.3);
+  background:rgba(249,115,22,0.08);
+  border-radius:50px;
+  font-size:0.82rem;
+  font-weight:600;
+  color:var(--orange);
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin-bottom:2rem;
+  animation:badgePulse 3s infinite;
+}
+
+@keyframes badgePulse {
+  0%,100%{ box-shadow:0 0 0 0 rgba(249,115,22,0.2); }
+  50%{ box-shadow:0 0 0 8px rgba(249,115,22,0); }
+}
+
+.hero-badge-dot {
+  width:7px; height:7px;
+  background:var(--orange);
+  border-radius:50%;
+  animation:blink 1.5s infinite;
+}
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+h1 {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3.2rem,8vw,7rem);
+  line-height:1.0;
+  letter-spacing:2px;
+  margin-bottom:1.5rem;
+  max-width:900px;
+}
+
+h1 .line-1 { display:block; color:var(--text); }
+
+h1 .line-2 {
+  display:block;
+  background:linear-gradient(90deg, var(--orange), #fb923c, var(--cyan));
+  background-size:200%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:gradShift 4s linear infinite;
+}
+
+@keyframes gradShift {
+  0%{background-position:0%}
+  100%{background-position:200%}
+}
+
+.hero-sub {
+  font-size:clamp(1rem,2vw,1.2rem);
+  color:var(--muted-l);
+  max-width:600px;
+  margin:0 auto 2.5rem;
+  line-height:1.8;
+}
+
+.hero-actions {
+  display:flex;
+  gap:1rem;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-bottom:3rem;
+}
+
+.btn-primary {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background:linear-gradient(135deg,var(--orange),var(--orange-d));
+  color:#fff;
+  padding:1rem 2.4rem;
+  border-radius:50px;
+  text-decoration:none;
+  font-weight:700;
+  font-size:1rem;
+  transition:all 0.3s;
+  box-shadow:0 10px 40px -5px rgba(249,115,22,0.5);
+  border:none;
+  cursor:pointer;
+  letter-spacing:0.3px;
+}
+
+.btn-primary:hover {
+  transform:translateY(-4px) scale(1.03);
+  box-shadow:0 20px 50px -5px rgba(249,115,22,0.65);
+}
+
+.btn-secondary {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background:transparent;
+  color:var(--text);
+  padding:1rem 2.4rem;
+  border-radius:50px;
+  text-decoration:none;
+  font-weight:600;
+  font-size:1rem;
+  transition:all 0.3s;
+  border:1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  border-color:var(--border-h);
+  background:var(--orange-gl);
+  transform:translateY(-4px);
+}
+
+/* Niche tags */
+.niche-tags {
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.65rem;
+  justify-content:center;
+  margin-top:1rem;
+}
+
+.niche-tag {
+  padding:5px 14px;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:50px;
+  font-size:0.8rem;
+  color:var(--muted-l);
+  display:flex;
+  align-items:center;
+  gap:6px;
+  transition:all 0.3s;
+}
+
+.niche-tag:hover {
+  border-color:var(--border-h);
+  color:var(--text);
+  background:var(--orange-gl);
+}
+
+/* Hero mockup */
+.hero-mockup {
+  margin-top:4rem;
+  position:relative;
+  width:100%;
+  max-width:700px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.mockup-window {
+  background:var(--bg-2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  box-shadow:0 40px 100px -20px rgba(0,0,0,0.8), 0 0 80px -20px rgba(249,115,22,0.15);
+  animation:float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,100%{ transform:translateY(0) rotateX(2deg); }
+  50%{ transform:translateY(-12px) rotateX(2deg); }
+}
+
+.mockup-bar {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:14px 20px;
+  border-bottom:1px solid var(--border);
+  background:rgba(0,0,0,0.3);
+}
+
+.mockup-dot {
+  width:10px; height:10px;
+  border-radius:50%;
+}
+
+.mockup-dot:nth-child(1){ background:#f87171; }
+.mockup-dot:nth-child(2){ background:#fbbf24; }
+.mockup-dot:nth-child(3){ background:#4ade80; }
+
+.mockup-title {
+  font-size:0.75rem;
+  color:var(--muted);
+  font-family:'JetBrains Mono', monospace;
+  margin-left:10px;
+}
+
+.mockup-body {
+  padding:24px;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:12px;
+}
+
+.mock-stat {
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:16px;
+  text-align:center;
+  transition:all 0.3s;
+}
+
+.mock-stat:hover { border-color:var(--border-h); transform:scale(1.03); }
+
+.mock-stat-num {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.8rem;
+  color:var(--orange);
+  display:block;
+}
+
+.mock-stat-label {
+  font-size:0.7rem;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-top:2px;
+}
+
+.mock-jobs {
+  grid-column:1/-1;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.mock-job {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 16px;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  font-size:0.82rem;
+  color:var(--muted-l);
+  animation:slideInJob 0.5s ease both;
+}
+
+@keyframes slideInJob {
+  from{ opacity:0; transform:translateX(-20px); }
+  to{ opacity:1; transform:translateX(0); }
+}
+
+.mock-job:nth-child(1){ animation-delay:0.5s; }
+.mock-job:nth-child(2){ animation-delay:0.8s; }
+.mock-job:nth-child(3){ animation-delay:1.1s; }
+
+.status-badge {
+  padding:3px 10px;
+  border-radius:50px;
+  font-size:0.7rem;
+  font-weight:600;
+}
+
+.s-completed { background:rgba(74,222,128,0.15); color:var(--green); border:1px solid rgba(74,222,128,0.3); }
+.s-inprocess { background:rgba(249,115,22,0.15); color:var(--orange); border:1px solid rgba(249,115,22,0.3); }
+.s-pending   { background:rgba(251,191,36,0.15); color:var(--yellow); border:1px solid rgba(251,191,36,0.3); }
+
+/* ============================================================
+   STATS BAR
+============================================================ */
+.stats-bar {
+  padding:4rem 6%;
+  background:var(--bg-2);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+
+.stats-grid {
+  max-width:1100px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:2rem;
+  text-align:center;
+}
+
+.stat-item { padding:1rem; }
+
+.stat-num {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:3.5rem;
+  color:var(--orange);
+  line-height:1;
+  display:block;
+}
+
+.stat-label {
+  font-size:0.85rem;
+  color:var(--muted-l);
+  margin-top:6px;
+  font-weight:500;
+}
+
+/* ============================================================
+   SECTION STYLES
+============================================================ */
+.section-wrap {
+  padding:8rem 6%;
+  max-width:1200px;
+  margin:0 auto;
+}
+
+.section-eyebrow {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:0.78rem;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--orange);
+  margin-bottom:1rem;
+}
+
+.section-eyebrow::before {
+  content:'';
+  display:block;
+  width:20px;
+  height:2px;
+  background:var(--orange);
+  border-radius:2px;
+}
+
+h2 {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2rem,4vw,3.5rem);
+  letter-spacing:1px;
+  line-height:1.1;
+  margin-bottom:1rem;
+}
+
+.section-desc {
+  font-size:1rem;
+  color:var(--muted-l);
+  max-width:560px;
+  line-height:1.8;
+}
+
+/* ============================================================
+   FEATURES GRID
+============================================================ */
+.features-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:1.5rem;
+  margin-top:4rem;
+}
+
+.feat-card {
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-md);
+  padding:2rem;
+  position:relative;
+  overflow:hidden;
+  transition:all var(--transition);
+  cursor:default;
+}
+
+.feat-card::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg, rgba(249,115,22,0.04) 0%, transparent 60%);
+  opacity:0;
+  transition:opacity var(--transition);
+}
+
+.feat-card::after {
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(249,115,22,0.5),transparent);
+  transform:scaleX(0);
+  transition:transform 0.5s ease;
+}
+
+.feat-card:hover {
+  border-color:var(--border-h);
+  transform:translateY(-8px);
+  box-shadow:0 24px 60px -10px rgba(0,0,0,0.5), var(--shadow-o);
+}
+
+.feat-card:hover::before { opacity:1; }
+.feat-card:hover::after { transform:scaleX(1); }
+
+.feat-icon {
+  width:52px; height:52px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  font-size:1.5rem;
+  margin-bottom:1.4rem;
+  background:linear-gradient(135deg,rgba(249,115,22,0.15),rgba(249,115,22,0.05));
+  border:1px solid rgba(249,115,22,0.2);
+  position:relative;
+  z-index:1;
+}
+
+.feat-card h3 {
+  font-size:1.1rem;
+  font-weight:700;
+  margin-bottom:0.6rem;
+  position:relative;
+  z-index:1;
+}
+
+.feat-card p {
+  font-size:0.9rem;
+  color:var(--muted-l);
+  line-height:1.75;
+  position:relative;
+  z-index:1;
+}
+
+/* ============================================================
+   JOB STATUS FLOW
+============================================================ */
+.status-flow-section {
+  padding:8rem 6%;
+  background:var(--bg-2);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  position:relative;
+  overflow:hidden;
+}
+
+.status-flow-section::before {
+  content:'';
+  position:absolute;
+  left:50%; top:50%;
+  transform:translate(-50%,-50%);
+  width:600px; height:600px;
+  background:radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+.status-flow-wrap {
+  max-width:1100px;
+  margin:0 auto;
+}
+
+.status-flow {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:0;
+  margin-top:3.5rem;
+  position:relative;
+}
+
+.status-node {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+  position:relative;
+}
+
+.status-circle {
+  width:80px; height:80px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:1.4rem;
+  border:2px solid var(--border);
+  background:var(--bg-card);
+  position:relative;
+  transition:all 0.4s;
+  cursor:default;
+}
+
+.status-circle:hover {
+  transform:scale(1.15);
+  box-shadow:0 0 30px var(--c, rgba(249,115,22,0.4));
+  border-color:var(--c, var(--orange));
+}
+
+.status-label {
+  font-size:0.72rem;
+  font-weight:700;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+  color:var(--muted-l);
+  text-align:center;
+  max-width:80px;
+}
+
+.flow-arrow {
+  width:40px;
+  height:2px;
+  background:linear-gradient(90deg,var(--border),rgba(249,115,22,0.4));
+  margin:0 4px;
+  margin-bottom:30px;
+  flex-shrink:0;
+  position:relative;
+}
+
+.flow-arrow::after {
+  content:'';
+  position:absolute;
+  right:-5px; top:-4px;
+  width:0; height:0;
+  border-left:8px solid rgba(249,115,22,0.4);
+  border-top:5px solid transparent;
+  border-bottom:5px solid transparent;
+}
+
+/* Status colors */
+.s-pending-c   { --c:rgba(251,191,36,0.5); }
+.s-inprocess-c { --c:rgba(249,115,22,0.5); }
+.s-waiting-c   { --c:rgba(34,211,238,0.5); }
+.s-completed-c { --c:rgba(74,222,128,0.5); }
+.s-delivered-c { --c:rgba(167,139,250,0.5); }
+.s-notrep-c    { --c:rgba(248,113,113,0.5); }
+
+/* ============================================================
+   NICHE SECTION
+============================================================ */
+.niche-section {
+  padding:8rem 6%;
+}
+
+.niche-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1.5rem;
+  margin-top:3rem;
+  max-width:1200px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.niche-card {
+  padding:2rem 1.5rem;
+  border:1px solid var(--border);
+  border-radius:var(--radius-md);
+  background:var(--bg-card);
+  text-align:center;
+  transition:all var(--transition);
+  position:relative;
+  overflow:hidden;
+}
+
+.niche-card::before {
+  content:'';
+  position:absolute;
+  bottom:-40px; left:50%;
+  transform:translateX(-50%);
+  width:80px; height:80px;
+  background:radial-gradient(circle, var(--accent, rgba(249,115,22,0.3)) 0%, transparent 70%);
+  transition:all 0.5s;
+}
+
+.niche-card:hover {
+  border-color:var(--border-h);
+  transform:translateY(-8px);
+}
+
+.niche-card:hover::before {
+  bottom:-20px;
+  width:120px; height:120px;
+}
+
+.niche-emoji {
+  font-size:2.5rem;
+  margin-bottom:1rem;
+  display:block;
+}
+
+.niche-card h3 {
+  font-size:1rem;
+  font-weight:700;
+  margin-bottom:0.4rem;
+}
+
+.niche-card p {
+  font-size:0.82rem;
+  color:var(--muted-l);
+}
+
+/* ============================================================
+   SPLIT SECTIONS
+============================================================ */
+.split-section {
+  padding:7rem 6%;
+}
+
+.split-section:nth-of-type(odd) { background:var(--bg-2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+
+.split-wrap {
+  max-width:1100px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5rem;
+  align-items:center;
+}
+
+.split-wrap.reverse { direction:rtl; }
+.split-wrap.reverse > * { direction:ltr; }
+
+.split-visual {
+  position:relative;
+}
+
+.visual-card-main {
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:2rem;
+  box-shadow:var(--shadow-o);
+}
+
+.visual-card-main h4 {
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.85rem;
+  color:var(--orange);
+  margin-bottom:1.4rem;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.ledger-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 0;
+  border-bottom:1px solid var(--border);
+  font-size:0.88rem;
+}
+
+.ledger-row:last-child { border-bottom:none; }
+
+.ledger-name { color:var(--muted-l); }
+.ledger-amount { font-weight:700; }
+.credit { color:var(--green); }
+.debit  { color:var(--red); }
+
+.float-badge {
+  position:absolute;
+  padding:10px 16px;
+  background:var(--bg-2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  font-size:0.8rem;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.4);
+  animation:float 4s ease-in-out infinite;
+}
+
+.fb-1 { top:-20px; right:-20px; animation-delay:1s; }
+.fb-2 { bottom:-20px; left:-20px; animation-delay:2s; }
+
+/* Inventory table style */
+.inv-table { width:100%; border-collapse:separate; border-spacing:0 6px; }
+.inv-table th { font-size:0.7rem; text-transform:uppercase; letter-spacing:1px; color:var(--muted); padding:0 12px 8px; font-weight:600; }
+.inv-table td { padding:10px 12px; background:var(--bg-card); font-size:0.85rem; }
+.inv-table td:first-child { border-radius:8px 0 0 8px; }
+.inv-table td:last-child  { border-radius:0 8px 8px 0; }
+.low-stock { color:var(--red); font-weight:700; }
+.ok-stock  { color:var(--green); font-weight:700; }
+
+/* Staff visual */
+.staff-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.staff-card {
+  padding:14px;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  display:flex;
+  align-items:center;
+  gap:12px;
+  transition:all 0.3s;
+}
+.staff-card:hover { border-color:var(--border-h); }
+.staff-avatar { width:36px; height:36px; border-radius:50%; font-size:1.1rem; display:grid; place-items:center; background:linear-gradient(135deg,rgba(249,115,22,0.2),rgba(249,115,22,0.05)); }
+.staff-name { font-size:0.85rem; font-weight:600; }
+.staff-role { font-size:0.72rem; color:var(--muted); }
+
+/* Backup visual */
+.backup-visual {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.backup-step {
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px 18px;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  font-size:0.88rem;
+  transition:all 0.3s;
+  position:relative;
+  overflow:hidden;
+}
+.backup-step::before {
+  content:'';
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width:3px;
+  background:var(--orange);
+}
+.backup-step:hover { border-color:var(--border-h); transform:translateX(6px); }
+.backup-step-icon { font-size:1.3rem; }
+.backup-step-info h5 { font-size:0.88rem; font-weight:600; }
+.backup-step-info p  { font-size:0.78rem; color:var(--muted-l); }
+.backup-check { margin-left:auto; color:var(--green); }
+
+/* ============================================================
+   WHATSAPP / RECEIPTS SECTION
+============================================================ */
+.whatsapp-visual {
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  box-shadow:var(--shadow-o);
+}
+
+.wa-header {
+  background:linear-gradient(135deg,#075e54,#128c7e);
+  padding:16px 20px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:0.9rem;
+  font-weight:600;
+}
+
+.wa-avatar {
+  width:40px; height:40px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.2);
+  display:grid;
+  place-items:center;
+  font-size:1.2rem;
+}
+
+.wa-body { padding:20px; display:flex; flex-direction:column; gap:10px; }
+
+.wa-msg {
+  max-width:85%;
+  padding:12px 16px;
+  border-radius:12px;
+  font-size:0.82rem;
+  line-height:1.6;
+  position:relative;
+}
+
+.wa-msg-in {
+  background:#1f2937;
+  border-radius:0 12px 12px 12px;
+  align-self:flex-start;
+  color:var(--muted-l);
+}
+
+.wa-msg-out {
+  background:linear-gradient(135deg,#075e54,#128c7e);
+  border-radius:12px 0 12px 12px;
+  align-self:flex-end;
+  color:#e2e8f0;
+}
+
+.wa-msg-time {
+  font-size:0.65rem;
+  color:rgba(255,255,255,0.5);
+  margin-top:4px;
+  text-align:right;
+}
+
+/* ============================================================
+   PRICING (FREE)
+============================================================ */
+.pricing-section {
+  padding:8rem 6%;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.pricing-section::before {
+  content:'';
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:800px; height:400px;
+  background:radial-gradient(ellipse,rgba(249,115,22,0.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+
+.pricing-card {
+  max-width:500px;
+  margin:3rem auto 0;
+  background:var(--bg-card);
+  border:1px solid rgba(249,115,22,0.3);
+  border-radius:var(--radius-xl);
+  padding:3rem;
+  position:relative;
+  overflow:hidden;
+  box-shadow:var(--shadow-o);
+}
+
+.pricing-card::before {
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--orange),transparent);
+}
+
+.free-badge {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:5rem;
+  color:var(--orange);
+  line-height:1;
+  display:block;
+  text-shadow:0 0 60px rgba(249,115,22,0.4);
+}
+
+.free-sub {
+  font-size:0.9rem;
+  color:var(--muted-l);
+  margin-bottom:2rem;
+}
+
+.pricing-features {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  text-align:left;
+  margin-bottom:2.5rem;
+}
+
+.pf-item {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:0.9rem;
+}
+
+.pf-check {
+  width:22px; height:22px;
+  border-radius:50%;
+  background:rgba(74,222,128,0.15);
+  border:1px solid rgba(74,222,128,0.3);
+  display:grid;
+  place-items:center;
+  flex-shrink:0;
+  font-size:0.75rem;
+  color:var(--green);
+}
+
+/* ============================================================
+   FAQ
+============================================================ */
+.faq-section {
+  padding:8rem 6%;
+  background:var(--bg-2);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+
+.faq-wrap {
+  max-width:720px;
+  margin:3rem auto 0;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.faq-item {
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  overflow:hidden;
+  transition:border-color 0.3s;
+}
+
+.faq-item.open { border-color:var(--border-h); }
+
+.faq-q {
+  width:100%;
+  text-align:left;
+  padding:20px 24px;
+  background:transparent;
+  border:none;
+  color:var(--text);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.95rem;
+  font-weight:600;
+  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:1rem;
+  transition:background 0.3s;
+}
+
+.faq-q:hover { background:var(--bg-card); }
+
+.faq-icon {
+  width:24px; height:24px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  display:grid;
+  place-items:center;
+  flex-shrink:0;
+  transition:all 0.4s;
+  font-size:1rem;
+  color:var(--orange);
+}
+
+.faq-item.open .faq-icon { transform:rotate(45deg); background:var(--orange-gl); border-color:var(--border-h); }
+
+.faq-a {
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.5s cubic-bezier(0.4,0,0.2,1), padding 0.3s;
+  padding:0 24px;
+  font-size:0.9rem;
+  color:var(--muted-l);
+  line-height:1.8;
+}
+
+.faq-item.open .faq-a {
+  max-height:300px;
+  padding:0 24px 20px;
+}
+
+/* ============================================================
+   FOOTER
+============================================================ */
+footer {
+  padding:5rem 6% 2rem;
+  border-top:1px solid var(--border);
+  background:rgba(0,0,0,0.3);
+}
+
+.footer-top {
+  max-width:1100px;
+  margin:0 auto 3rem;
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:3rem;
+}
+
+.footer-brand .logo { margin-bottom:1rem; }
+.footer-brand p { font-size:0.88rem; color:var(--muted-l); line-height:1.8; max-width:300px; }
+
+.footer-col h4 {
+  font-size:0.78rem;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  color:var(--muted);
+  margin-bottom:1.2rem;
+  font-weight:700;
+}
+
+.footer-col a {
+  display:block;
+  color:var(--muted-l);
+  text-decoration:none;
+  font-size:0.88rem;
+  margin-bottom:0.7rem;
+  transition:color 0.3s;
+}
+
+.footer-col a:hover { color:var(--orange); }
+
+.footer-bottom {
+  max-width:1100px;
+  margin:0 auto;
+  border-top:1px solid var(--border);
+  padding-top:2rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:1rem;
+}
+
+.footer-bottom p { font-size:0.82rem; color:var(--muted); }
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media (max-width:900px) {
+  .split-wrap { grid-template-columns:1fr; gap:3rem; }
+  .split-wrap.reverse { direction:ltr; }
+  .stats-grid { grid-template-columns:repeat(2,1fr); }
+  .footer-top { grid-template-columns:1fr; gap:2rem; }
+}
+
+@media (max-width:768px) {
+  .nav-links { display:none; }
+  .ham { display:flex; }
+  .status-flow { gap:0.5rem; }
+  .flow-arrow { width:20px; }
+  .mockup-body { grid-template-columns:1fr 1fr; }
+  .hero-mockup { display:none; }
+}
+
+@media (max-width:480px) {
+  .stats-grid { grid-template-columns:1fr 1fr; }
+  .features-grid { grid-template-columns:1fr; }
+  .niche-grid { grid-template-columns:1fr 1fr; }
+  .footer-bottom { flex-direction:column; text-align:center; }
+  .status-flow { flex-wrap:wrap; gap:1rem; }
+  .flow-arrow { display:none; }
+}
+
+/* ============================================================
+   ANIMATIONS
+============================================================ */
+@keyframes spin { to{ transform:rotate(360deg); } }
+@keyframes pulse-glow {
+  0%,100%{ box-shadow:0 0 20px rgba(249,115,22,0.2); }
+  50%{ box-shadow:0 0 40px rgba(249,115,22,0.5); }
+}
+
+/* Stagger delays for grids */
+.feat-card:nth-child(1){ transition-delay:0s; }
+.feat-card:nth-child(2){ transition-delay:0.08s; }
+.feat-card:nth-child(3){ transition-delay:0.16s; }
+.feat-card:nth-child(4){ transition-delay:0.24s; }
+.feat-card:nth-child(5){ transition-delay:0.32s; }
+.feat-card:nth-child(6){ transition-delay:0.40s; }
+.feat-card:nth-child(7){ transition-delay:0.48s; }
+.feat-card:nth-child(8){ transition-delay:0.56s; }
+.feat-card:nth-child(9){ transition-delay:0.64s; }
+
+/* Typing animation */
+.typing-text::after {
+  content:'|';
+  animation:cursor-blink 0.8s infinite;
+  color:var(--orange);
+}
+
+@keyframes cursor-blink { 0%,100%{opacity:1} 49%{opacity:1} 50%{opacity:0} }
+</style>
 </head>
 <body>
 
-    <nav>
-        <a href="#" class="logo">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-            </svg>
-            Repair<span>Books</span>
-        </a>
-        <div class="nav-links">
-            <a href="#features">Features</a>
-            <!-- Links to the privacy policy page you already created -->
-            <a href="privacy.html">Privacy Policy</a>
-            <a href="mailto:youfixers@gmail.com">Contact</a>
-        </div>
-    </nav>
+<canvas id="particles-canvas"></canvas>
 
-    <header>
-        <h1 class="reveal">The Professional POS for Modern Repair Shops</h1>
-        <p class="reveal" style="transition-delay: 0.1s;">Manage your jobs, track your inventory, and control your finances securely from your device. No cloud subscriptions required. Your data belongs to you.</p>
-        <div class="reveal" style="transition-delay: 0.2s;">
-            <!-- Update this link with your Play Store URL once published -->
-            <a href="https://play.google.com/store/apps/details?id=com.ufixer.repairbooks" class="cta-btn">Get it on Google Play</a>
-        </div>
-    </header>
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="#" class="logo">
+    <div class="logo-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+      </svg>
+    </div>
+    Repair<span>Books</span>
+  </a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#status">Job Flow</a>
+    <a href="#niches">For Who</a>
+    <a href="#faq">FAQ</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="https://play.google.com/store/apps/details?id=com.ufixer.repairbooks" target="_blank" rel="noopener" class="nav-cta">📲 Download Free</a>
+  </div>
+  <div class="ham" id="ham-btn">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
 
-    <section id="features" class="features">
-        <h2 class="section-title reveal">Everything you need to run your shop</h2>
-        <div class="grid">
-            <div class="card reveal" style="transition-delay: 0.1s;">
-                <div class="card-icon">📱</div>
-                <h3>Intelligent Job Tracking</h3>
-                <p>Track every device from intake to delivery. Manage statuses, assign technicians, and never lose track of a customer's repair again.</p>
-            </div>
-            <div class="card reveal" style="transition-delay: 0.2s;">
-                <div class="card-icon">💰</div>
-                <h3>Advanced Financial Ledger</h3>
-                <p>Manage customer balances and daily cash flow. Our intelligent FIFO credit system automatically applies payments to the oldest pending balances.</p>
-            </div>
-            <div class="card reveal" style="transition-delay: 0.3s;">
-                <div class="card-icon">🔒</div>
-                <h3>Offline First & Secure</h3>
-                <p>RepairBooks runs entirely on your device. Complete privacy with zero mandatory cloud subscriptions. You own your customer data.</p>
-            </div>
-            <div class="card reveal" style="transition-delay: 0.4s;">
-                <div class="card-icon">☁️</div>
-                <h3>Google Drive Sync</h3>
-                <p>Securely backup your shop's encrypted database directly to your personal Google Drive account. Restore your shop's data anytime, anywhere.</p>
-            </div>
-        </div>
-    </section>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#features" onclick="closeMobileMenu()">Features</a>
+  <a href="#status" onclick="closeMobileMenu()">Job Flow</a>
+  <a href="#niches" onclick="closeMobileMenu()">For Who</a>
+  <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
+  <a href="privacy.html">Privacy</a>
+  <a href="https://play.google.com/store/apps/details?id=com.ufixer.repairbooks" target="_blank" rel="noopener" style="color:var(--orange)">Download Free</a>
+</div>
 
-    <footer>
-        <div class="footer-links">
-            <a href="privacy.html">Privacy Policy</a>
-            <a href="terms.html">Terms of Service</a>
-            <a href="mailto:youfixers@gmail.com">Support</a>
-        </div>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">&copy; 2026 RepairBooks. All rights reserved.</p>
-    </footer>
+<!-- HERO -->
+<header>
+  <div class="hero-badge reveal">
+    <div class="hero-badge-dot"></div>
+    100% Free — No Subscriptions
+  </div>
 
-    <script>
-        // Smooth Scroll Animation Logic
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 100;
-                
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
-                }
-            }
+  <h1 class="reveal" style="transition-delay:0.1s">
+    <span class="line-1">Manage Your</span>
+    <span class="line-2" id="typing-headline">Repair Shop</span>
+  </h1>
+
+  <p class="hero-sub reveal" style="transition-delay:0.2s">
+    The all-in-one POS & management app built specifically for repair shops.
+    Track jobs, manage inventory, send WhatsApp receipts, and backup securely.
+  </p>
+
+  <div class="hero-actions reveal" style="transition-delay:0.3s">
+    <a href="https://play.google.com/store/apps/details?id=com.ufixer.repairbooks" target="_blank" rel="noopener" class="btn-primary">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76a1.99 1.99 0 0 0 2.16-.32l12.38-7.15-2.79-2.79-11.75 10.26zm-1.3-20.24A2 2 0 0 0 1.5 5v14a2 2 0 0 0 .38 1.24l.09.1 7.84-7.84v-.18L1.97 4.41l-.09.11zm18.49 8.04-2.64-1.52-3.05 3.05 3.05 3.05 2.66-1.53a2.01 2.01 0 0 0 0-3.05zm-15.85 9.87 11.34-11.34-2.78-2.78L3.52 7.43v.18l-.1.07.2.1.16.09 11.08-6.4-.16-.1A2.01 2.01 0 0 0 12.56.69L1.97 7.43"/></svg>
+      Get on Google Play
+    </a>
+    <a href="#features" class="btn-secondary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
+      See All Features
+    </a>
+  </div>
+
+  <div class="niche-tags reveal" style="transition-delay:0.4s">
+    <span class="niche-tag">🔧 Mobile Repair</span>
+    <span class="niche-tag">💻 Laptop Centers</span>
+    <span class="niche-tag">📺 Electronics Shops</span>
+    <span class="niche-tag">⚡ UPS Services</span>
+    <span class="niche-tag">🛠️ Hardware Workshops</span>
+  </div>
+
+  <!-- Mockup UI -->
+  <div class="hero-mockup reveal" style="transition-delay:0.5s">
+    <div class="mockup-window">
+      <div class="mockup-bar">
+        <div class="mockup-dot"></div>
+        <div class="mockup-dot"></div>
+        <div class="mockup-dot"></div>
+        <span class="mockup-title">RepairBooks — Dashboard</span>
+      </div>
+      <div class="mockup-body">
+        <div class="mock-stat">
+          <span class="mock-stat-num" id="m-jobs">0</span>
+          <span class="mock-stat-label">Active Jobs</span>
+        </div>
+        <div class="mock-stat">
+          <span class="mock-stat-num" id="m-rev">0</span>
+          <span class="mock-stat-label">Today Revenue</span>
+        </div>
+        <div class="mock-stat">
+          <span class="mock-stat-num" id="m-parts">0</span>
+          <span class="mock-stat-label">Parts in Stock</span>
+        </div>
+        <div class="mock-jobs">
+          <div class="mock-job">
+            <span>iPhone 14 — Screen Repair</span>
+            <span class="status-badge s-inprocess">In Process</span>
+          </div>
+          <div class="mock-job">
+            <span>Samsung A54 — Battery</span>
+            <span class="status-badge s-completed">Completed</span>
+          </div>
+          <div class="mock-job">
+            <span>Laptop HP — Charging Port</span>
+            <span class="status-badge s-pending">Pending</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-grid">
+    <div class="stat-item reveal">
+      <span class="stat-num counter" data-target="12">0</span>
+      <span class="stat-label">Features Packed In</span>
+    </div>
+    <div class="stat-item reveal" style="transition-delay:0.1s">
+      <span class="stat-num counter" data-target="6">0</span>
+      <span class="stat-label">Job Status Stages</span>
+    </div>
+    <div class="stat-item reveal" style="transition-delay:0.2s">
+      <span class="stat-num counter" data-target="5">0</span>
+      <span class="stat-label">Repair Shop Niches</span>
+    </div>
+    <div class="stat-item reveal" style="transition-delay:0.3s">
+      <span class="stat-num" style="font-size:3.5rem; color:var(--green); font-family:'Bebas Neue',sans-serif;">FREE</span>
+      <span class="stat-label">Forever — No Hidden Cost</span>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES GRID -->
+<section id="features">
+  <div class="section-wrap">
+    <div class="reveal">
+      <span class="section-eyebrow">Everything You Need</span>
+      <h2>Built for Repair Shops.<br>Built by Repair People.</h2>
+      <p class="section-desc">Every tool a modern repair shop needs — in one offline-first, fully secure app. No monthly fees. No cloud lock-in.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feat-card reveal">
+        <div class="feat-icon">🔧</div>
+        <h3>Repair Job Management</h3>
+        <p>Create, assign, and track every repair job from intake to delivery. Add device info, issue description, advance payment, and estimated delivery date — all in one place.</p>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-icon">💬</div>
+        <h3>WhatsApp & SMS Receipts</h3>
+        <p>Send professional job receipts and payment confirmations directly via WhatsApp or SMS. Customers get real-time updates without you lifting a finger.</p>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-icon">🔔</div>
+        <h3>Auto Customer Notifications</h3>
+        <p>Automated alerts when a job status changes — from Pending to Completed to Delivered. Your customers always know what's happening with their device.</p>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-icon">📦</div>
+        <h3>Stock & Inventory Management</h3>
+        <p>Track every spare part, component, and accessory in your shop. Get low-stock alerts before you run out and maintain accurate counts automatically.</p>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-icon">🔩</div>
+        <h3>Parts Used in Jobs Tracking</h3>
+        <p>Link parts directly to repair jobs. Stock is deducted automatically when a part is used, giving you a precise, real-time inventory picture at all times.</p>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-icon">🏭</div>
+        <h3>Supplier Management</h3>
+        <p>Maintain a full supplier directory. Log purchases, track outstanding balances, and see your purchase history per supplier — your khata with vendors, digitized.</p>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-icon">📒</div>
+        <h3>Customer Ledger / Khata</h3>
+        <p>Full customer credit/debit system with FIFO payment allocation. Track outstanding balances, payment history, and issue statements — like a traditional khata, but smarter.</p>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-icon">👥</div>
+        <h3>Staff Accounts & Login</h3>
+        <p>Multi-user access with role-based permissions. Each technician has their own secure login. Track who did what — full accountability across your team.</p>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-icon">☁️</div>
+        <h3>Google Drive Auto Backup</h3>
+        <p>Your entire shop database — encrypted and backed up automatically to your personal Google Drive. Restore instantly on any device. Your data stays yours, forever.</p>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-icon">🔒</div>
+        <h3>App Lock & Data Security</h3>
+        <p>PIN, pattern, or biometric lock to keep your business data private. Fully offline operation means zero data is ever sent to any third-party server.</p>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-icon">🧾</div>
+        <h3>Invoice & Receipt Sharing</h3>
+        <p>Generate professional PDF invoices and receipts. Share via WhatsApp, email, or print. Branded, clean, and professional — every single time.</p>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-icon">💰</div>
+        <h3>Advanced Financial Ledger</h3>
+        <p>Full daily cash flow tracking, revenue reports, and expense management. Understand your shop's profitability at a glance — daily, weekly, or monthly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOB STATUS FLOW -->
+<section id="status" class="status-flow-section">
+  <div class="status-flow-wrap">
+    <div class="reveal" style="text-align:center">
+      <span class="section-eyebrow">Transparent Workflow</span>
+      <h2>Every Job Has a Journey</h2>
+      <p class="section-desc" style="margin:0 auto">Track every device through 6 clearly defined stages. Never lose track of a single repair job again.</p>
+    </div>
+
+    <div class="status-flow reveal" style="margin-top:3.5rem; transition-delay:0.2s">
+      <div class="status-node">
+        <div class="status-circle s-pending-c" style="border-color:rgba(251,191,36,0.4);">⏳</div>
+        <div class="status-label" style="color:var(--yellow)">Pending</div>
+      </div>
+      <div class="flow-arrow"></div>
+      <div class="status-node">
+        <div class="status-circle s-inprocess-c" style="border-color:rgba(249,115,22,0.4);">⚙️</div>
+        <div class="status-label" style="color:var(--orange)">In Process</div>
+      </div>
+      <div class="flow-arrow"></div>
+      <div class="status-node">
+        <div class="status-circle s-waiting-c" style="border-color:rgba(34,211,238,0.4);">📦</div>
+        <div class="status-label" style="color:var(--cyan)">Waiting Parts</div>
+      </div>
+      <div class="flow-arrow"></div>
+      <div class="status-node">
+        <div class="status-circle s-completed-c" style="border-color:rgba(74,222,128,0.4);">✅</div>
+        <div class="status-label" style="color:var(--green)">Completed</div>
+      </div>
+      <div class="flow-arrow"></div>
+      <div class="status-node">
+        <div class="status-circle s-delivered-c" style="border-color:rgba(167,139,250,0.4);">🚀</div>
+        <div class="status-label" style="color:#a78bfa">Delivered</div>
+      </div>
+      <div class="flow-arrow"></div>
+      <div class="status-node">
+        <div class="status-circle s-notrep-c" style="border-color:rgba(248,113,113,0.4);">❌</div>
+        <div class="status-label" style="color:var(--red)">Not Repaired</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NICHE SECTION -->
+<section id="niches" class="niche-section">
+  <div style="max-width:1200px;margin:0 auto;text-align:center">
+    <div class="reveal">
+      <span class="section-eyebrow">Multi-Niche Support</span>
+      <h2>Designed for Every<br>Repair Business</h2>
+      <p class="section-desc" style="margin:0 auto">Whether you fix smartphones or industrial UPS systems, RepairBooks adapts to your workflow.</p>
+    </div>
+    <div class="niche-grid">
+      <div class="niche-card reveal" style="--accent:rgba(249,115,22,0.25); transition-delay:0.05s">
+        <span class="niche-emoji">📱</span>
+        <h3>Mobile Repair Shops</h3>
+        <p>Screen replacements, battery swaps, motherboard repairs — tracked perfectly.</p>
+      </div>
+      <div class="niche-card reveal" style="--accent:rgba(34,211,238,0.2); transition-delay:0.1s">
+        <span class="niche-emoji">💻</span>
+        <h3>Laptop Repair Centers</h3>
+        <p>Keyboard, charging ports, RAM upgrades — log every job with full part tracking.</p>
+      </div>
+      <div class="niche-card reveal" style="--accent:rgba(251,191,36,0.2); transition-delay:0.15s">
+        <span class="niche-emoji">📺</span>
+        <h3>Electronics Workshops</h3>
+        <p>TVs, amplifiers, circuit boards — full job history and customer ledger.</p>
+      </div>
+      <div class="niche-card reveal" style="--accent:rgba(74,222,128,0.2); transition-delay:0.2s">
+        <span class="niche-emoji">⚡</span>
+        <h3>UPS & Hardware Centers</h3>
+        <p>Service calls, battery replacements, preventive maintenance — all tracked.</p>
+      </div>
+      <div class="niche-card reveal" style="--accent:rgba(167,139,250,0.2); transition-delay:0.25s">
+        <span class="niche-emoji">🛠️</span>
+        <h3>All Repair Businesses</h3>
+        <p>From small solo technicians to multi-staff shops — RepairBooks scales with you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPLIT: CUSTOMER LEDGER -->
+<section class="split-section">
+  <div class="split-wrap">
+    <div class="reveal-left">
+      <span class="section-eyebrow">Customer Ledger</span>
+      <h2>Your Khata,<br>Gone Digital</h2>
+      <p class="section-desc">Track every customer's credit, debit, and outstanding balance automatically. Our FIFO payment system allocates payments to oldest balances first — just like a smart accountant.</p>
+      <ul style="margin-top:1.5rem;display:flex;flex-direction:column;gap:10px;list-style:none">
+        <li style="display:flex;gap:10px;align-items:center;font-size:0.9rem;color:var(--muted-l)"><span style="color:var(--green)">✓</span> Full credit/debit history per customer</li>
+        <li style="display:flex;gap:10px;align-items:center;font-size:0.9rem;color:var(--muted-l)"><span style="color:var(--green)">✓</span> Auto FIFO payment allocation</li>
+        <li style="display:flex;gap:10px;align-items:center;font-size:0.9rem;color:var(--muted-l)"><span style="color:var(--green)">✓</span> Send balance statement via WhatsApp</li>
+        <li style="display:flex;gap:10px;align-items:center;font-size:0.9rem;color:var(--muted-l)"><span style="color:var(--green)">✓</span> Supplier khata included</li>
+      </ul>
+    </div>
+    <div class="reveal-right">
+      <div class="split-visual">
+        <div class="visual-card-main">
+          <h4>📒 Customer Ledger — Ahmad Electronics</h4>
+          <div class="ledger-row">
+            <span class="ledger-name">iPhone 14 Screen Repair</span>
+            <span class="ledger-amount credit">+ Rs 8,500</span>
+          </div>
+          <div class="ledger-row">
+            <span class="ledger-name">Advance Payment Received</span>
+            <span class="ledger-amount debit">– Rs 5,000</span>
+          </div>
+          <div class="ledger-row">
+            <span class="ledger-name">Samsung A54 Battery</span>
+            <span class="ledger-amount credit">+ Rs 2,800</span>
+          </div>
+          <div class="ledger-row">
+            <span class="ledger-name">Payment Cleared</span>
+            <span class="ledger-amount debit">– Rs 2,800</span>
+          </div>
+          <div class="ledger-row" style="border-top:1px solid var(--border);margin-top:8px;padding-top:16px">
+            <span style="font-weight:700">Outstanding Balance</span>
+            <span class="ledger-amount credit" style="font-size:1.1rem">Rs 3,500</span>
+          </div>
+        </div>
+        <div class="float-badge fb-1" style="color:var(--green)">
+          <span>💬</span> Sent via WhatsApp
+        </div>
+        <div class="float-badge fb-2" style="color:var(--cyan)">
+          <span>🔔</span> Payment Reminder Sent
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPLIT: INVENTORY -->
+<section class="split-section">
+  <div class="split-wrap reverse">
+    <div class="reveal-left">
+      <div class="split-visual">
+        <div class="visual-card-main">
+          <h4>📦 Stock & Inventory — Live View</h4>
+          <table class="inv-table">
+            <thead>
+              <tr>
+                <th>Part Name</th>
+                <th>Category</th>
+                <th>Stock</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>iPhone 14 Screen</td><td>Display</td><td>8</td><td><span class="ok-stock">✓ OK</span></td>
+              </tr>
+              <tr>
+                <td>Samsung A54 Battery</td><td>Battery</td><td>2</td><td><span class="low-stock">⚠ Low</span></td>
+              </tr>
+              <tr>
+                <td>Type-C Charging Port</td><td>Connector</td><td>15</td><td><span class="ok-stock">✓ OK</span></td>
+              </tr>
+              <tr>
+                <td>iPhone 13 Battery</td><td>Battery</td><td>0</td><td><span class="low-stock">✗ Out</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="float-badge fb-2" style="color:var(--red)">
+          ⚠️ Low Stock Alert Sent
+        </div>
+      </div>
+    </div>
+    <div class="reveal-right">
+      <span class="section-eyebrow">Inventory Control</span>
+      <h2>Know Your Stock.<br>Never Run Short.</h2>
+      <p class="section-desc">Real-time parts inventory with automatic deductions when used in jobs. Get low-stock alerts before you lose a customer due to missing parts.</p>
+      <ul style="margin-top:1.5rem;display:flex;flex-direction:column;gap:10px;list-style:none">
+        <li style="display:flex;gap:10px;align-items:center;font-size:0.9rem;color:var(--muted-l)"><span style="color:var(--green)">✓</span> Auto stock deduction on job completion</li>
+        <li style="display:flex;gap:10px;align-items:center;font-size:0.9rem;color:var(--muted-l)"><span style="color:var(--green)">✓</span> Low-stock and out-of-stock alerts</li>
+        <li style="display:flex;gap:10px;align-items:center;font-size:0.9rem;color:var(--muted-l)"><span style="color:var(--green)">✓</span> Parts linked to supplier profiles</li>
+        <li style="display:flex;gap:10px;align-items:center;font-size:0.9rem;color:var(--muted-l)"><span style="color:var(--green)">✓</span> Full purchase history per part</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SPLIT: WHATSAPP RECEIPTS -->
+<section class="split-section">
+  <div class="split-wrap">
+    <div class="reveal-left">
+      <span class="section-eyebrow">Instant Communication</span>
+      <h2>WhatsApp Receipts<br>in One Tap</h2>
+      <p class="section-desc">Send professional repair receipts and payment confirmations to customers instantly via WhatsApp. No more handwritten slips. Look professional every time.</p>
+      <ul style="margin-top:1.5rem;display:flex;flex-direction:column;gap:10px;list-style:none">
+        <li style="display:flex;gap:10px;align-items:center;font-size:0.9rem;color:var(--muted-l)"><span style="color:var(--green)">✓</span> Auto-generated job receipts</li>
+        <li style="display:flex;gap:10px;align-items:center;font-size:0.9rem;color:var(--muted-l)"><span style="color:var(--green)">✓</span> Status update notifications</li>
+        <li style="display:flex;gap:10px;align-items:center;font-size:0.9rem;color:var(--muted-l)"><span style="color:var(--green)">✓</span> Send via WhatsApp, SMS, or PDF</li>
+        <li style="display:flex;gap:10px;align-items:center;font-size:0.9rem;color:var(--muted-l)"><span style="color:var(--green)">✓</span> Branded shop name & logo</li>
+      </ul>
+    </div>
+    <div class="reveal-right">
+      <div class="whatsapp-visual">
+        <div class="wa-header">
+          <div class="wa-avatar">🔧</div>
+          <div>
+            <div>RepairBooks Shop</div>
+            <div style="font-size:0.7rem;opacity:0.7;font-weight:400">Online</div>
+          </div>
+        </div>
+        <div class="wa-body">
+          <div class="wa-msg wa-msg-in">
+            Hi, is my phone ready? I dropped it off yesterday.
+            <div class="wa-msg-time">2:30 PM</div>
+          </div>
+          <div class="wa-msg wa-msg-out">
+            ✅ *Job Update — RepairBooks*
+            <br><br>
+            📱 Device: iPhone 14<br>
+            🔧 Issue: Screen Repair<br>
+            📊 Status: <b>COMPLETED</b><br>
+            💰 Amount: Rs 8,500<br>
+            <br>
+            Please collect at your convenience!
+            <div class="wa-msg-time">2:31 PM ✓✓</div>
+          </div>
+          <div class="wa-msg wa-msg-in">
+            Amazing! Coming in 20 minutes. Thank you! 🙏
+            <div class="wa-msg-time">2:33 PM</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPLIT: STAFF & BACKUP -->
+<section class="split-section">
+  <div class="split-wrap reverse">
+    <div class="reveal-left">
+      <div class="split-visual">
+        <div style="display:flex;flex-direction:column;gap:1.5rem">
+          <div class="visual-card-main">
+            <h4>👥 Staff Accounts</h4>
+            <div class="staff-grid">
+              <div class="staff-card">
+                <div class="staff-avatar">👨‍🔧</div>
+                <div><div class="staff-name">Ahmed Ali</div><div class="staff-role">Senior Tech</div></div>
+              </div>
+              <div class="staff-card">
+                <div class="staff-avatar">👩‍🔧</div>
+                <div><div class="staff-name">Sara Khan</div><div class="staff-role">Technician</div></div>
+              </div>
+              <div class="staff-card">
+                <div class="staff-avatar">👨‍💼</div>
+                <div><div class="staff-name">Bilal Raza</div><div class="staff-role">Manager</div></div>
+              </div>
+              <div class="staff-card">
+                <div class="staff-avatar">👨‍🔬</div>
+                <div><div class="staff-name">Usman Dev</div><div class="staff-role">Apprentice</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="visual-card-main">
+            <h4>☁️ Backup Status</h4>
+            <div class="backup-visual">
+              <div class="backup-step">
+                <span class="backup-step-icon">🔐</span>
+                <div class="backup-step-info"><h5>Database Encrypted</h5><p>AES-256 local encryption applied</p></div>
+                <span class="backup-check">✓</span>
+              </div>
+              <div class="backup-step">
+                <span class="backup-step-icon">☁️</span>
+                <div class="backup-step-info"><h5>Synced to Google Drive</h5><p>Last backup: 2 minutes ago</p></div>
+                <span class="backup-check">✓</span>
+              </div>
+              <div class="backup-step">
+                <span class="backup-step-icon">📲</span>
+                <div class="backup-step-info"><h5>Restore Ready</h5><p>Restore on any device instantly</p></div>
+                <span class="backup-check">✓</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal-right">
+      <span class="section-eyebrow">Team & Security</span>
+      <h2>Your Team.<br>Your Data. Secured.</h2>
+      <p class="section-desc">Multi-user staff login with role-based permissions. Every action is tracked. And your entire shop database is encrypted and backed up to Google Drive — automatically.</p>
+      <ul style="margin-top:1.5rem;display:flex;flex-direction:column;gap:10px;list-style:none">
+        <li style="display:flex;gap:10px;align-items:center;font-size:0.9rem;color:var(--muted-l)"><span style="color:var(--green)">✓</span> Individual staff login accounts</li>
+        <li style="display:flex;gap:10px;align-items:center;font-size:0.9rem;color:var(--muted-l)"><span style="color:var(--green)">✓</span> Role-based access permissions</li>
+        <li style="display:flex;gap:10px;align-items:center;font-size:0.9rem;color:var(--muted-l)"><span style="color:var(--green)">✓</span> PIN / biometric app lock</li>
+        <li style="display:flex;gap:10px;align-items:center;font-size:0.9rem;color:var(--muted-l)"><span style="color:var(--green)">✓</span> Encrypted Google Drive auto backup</li>
+        <li style="display:flex;gap:10px;align-items:center;font-size:0.9rem;color:var(--muted-l)"><span style="color:var(--green)">✓</span> 100% offline — no cloud dependency</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="reveal">
+    <span class="section-eyebrow">Pricing</span>
+    <h2>No Tricks. No Subscriptions.</h2>
+    <p class="section-desc" style="margin:0 auto">RepairBooks is completely free. Every feature. Every update. Forever.</p>
+  </div>
+
+  <div class="pricing-card reveal" style="transition-delay:0.2s">
+    <span class="free-badge">FREE</span>
+    <p class="free-sub">All features. All niches. No credit card required.</p>
+    <div class="pricing-features">
+      <div class="pf-item"><div class="pf-check">✓</div> Unlimited Repair Jobs</div>
+      <div class="pf-item"><div class="pf-check">✓</div> WhatsApp & SMS Receipts</div>
+      <div class="pf-item"><div class="pf-check">✓</div> Stock & Inventory Management</div>
+      <div class="pf-item"><div class="pf-check">✓</div> Customer Ledger / Khata System</div>
+      <div class="pf-item"><div class="pf-check">✓</div> Staff Accounts & Logins</div>
+      <div class="pf-item"><div class="pf-check">✓</div> Google Drive Auto Backup</div>
+      <div class="pf-item"><div class="pf-check">✓</div> App Lock & Full Data Security</div>
+      <div class="pf-item"><div class="pf-check">✓</div> Invoice & Receipt PDF Sharing</div>
+      <div class="pf-item"><div class="pf-check">✓</div> All Future Updates — Free</div>
+    </div>
+    <a href="https://play.google.com/store/apps/details?id=com.ufixer.repairbooks" target="_blank" rel="noopener" class="btn-primary" style="width:100%;justify-content:center;font-size:1.1rem">
+      📲 Download Free on Google Play
+    </a>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div style="max-width:720px;margin:0 auto;text-align:center">
+    <div class="reveal">
+      <span class="section-eyebrow">FAQ</span>
+      <h2>Got Questions?</h2>
+      <p class="section-desc" style="margin:0 auto">Everything you need to know before getting started.</p>
+    </div>
+  </div>
+
+  <div class="faq-wrap">
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Is RepairBooks really 100% free?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">Yes, completely. There are no hidden fees, no monthly subscriptions, and no premium tiers. Every feature available in the app is free for all users, forever. You own the app once you download it.</div>
+    </div>
+
+    <div class="faq-item reveal" style="transition-delay:0.1s">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Does it work without internet?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">Absolutely. RepairBooks is built offline-first. All data is stored locally on your device. You only need internet when you choose to backup to Google Drive or send WhatsApp/SMS messages.</div>
+    </div>
+
+    <div class="faq-item reveal" style="transition-delay:0.2s">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        How secure is my shop's data?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">Your data never leaves your device unless you explicitly backup to Google Drive (your personal account, not ours). The local database is encrypted, and the app supports PIN, pattern, and biometric lock to prevent unauthorized access.</div>
+    </div>
+
+    <div class="faq-item reveal" style="transition-delay:0.3s">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Can multiple staff members use the same app?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">Yes! RepairBooks supports multi-user accounts with role-based permissions. Each staff member gets their own login, and you can control what each person can view or edit — technicians, managers, and admin roles are all supported.</div>
+    </div>
+
+    <div class="faq-item reveal" style="transition-delay:0.4s">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        What types of repair shops can use RepairBooks?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">RepairBooks is built for any type of repair business — mobile repair shops, laptop service centers, electronics workshops, UPS and hardware service centers, and more. If you repair things and need to manage jobs and customers, RepairBooks works for you.</div>
+    </div>
+
+    <div class="faq-item reveal" style="transition-delay:0.5s">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        What if I switch phones? Will I lose my data?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">No. Use the Google Drive backup feature before switching devices. Install RepairBooks on your new phone, sign in with the same Google account, and restore your entire shop database in seconds. Zero data loss.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand reveal-left">
+      <a href="#" class="logo">
+        <div class="logo-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+          </svg>
+        </div>
+        Repair<span>Books</span>
+      </a>
+      <p style="margin-top:1rem">The professional, free, offline-first POS and management app built specifically for repair shops of all kinds.</p>
+    </div>
+    <div class="footer-col reveal">
+      <h4>App</h4>
+      <a href="#features">Features</a>
+      <a href="#status">Job Flow</a>
+      <a href="#niches">Supported Shops</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="footer-col reveal" style="transition-delay:0.1s">
+      <h4>Legal & Support</h4>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="mailto:support@repairbooks.com">support@repairbooks.com</a>
+      <a href="https://play.google.com/store/apps/details?id=com.ufixer.repairbooks" target="_blank" rel="noopener">Google Play</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 RepairBooks. All rights reserved.</p>
+    <p style="color:var(--muted-l)">Made with ❤️ for repair shop owners worldwide</p>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   PARTICLES
+============================================================ */
+(function() {
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  const PARTICLE_COUNT = 60;
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x  = Math.random() * canvas.width;
+      this.y  = Math.random() * canvas.height;
+      this.vx = (Math.random() - 0.5) * 0.3;
+      this.vy = (Math.random() - 0.5) * 0.3;
+      this.r  = Math.random() * 1.5 + 0.5;
+      this.alpha = Math.random() * 0.4 + 0.1;
+      this.color = Math.random() > 0.6 ? '#f97316' : '#22d3ee';
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.globalAlpha = this.alpha;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  function drawLines() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = '#f97316';
+          ctx.globalAlpha = (1 - dist / 120) * 0.08;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+          ctx.globalAlpha = 1;
         }
-        
-        window.addEventListener("scroll", reveal);
-        // Trigger once on load to show header elements
-        setTimeout(reveal, 100);
-    </script>
+      }
+    }
+  }
+
+  for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
+
+  function loop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    drawLines();
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+/* ============================================================
+   NAV SCROLL
+============================================================ */
+window.addEventListener('scroll', function() {
+  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+/* ============================================================
+   SCROLL REVEAL
+============================================================ */
+function revealAll() {
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+    const top = el.getBoundingClientRect().top;
+    if (top < window.innerHeight - 80) el.classList.add('active');
+  });
+}
+window.addEventListener('scroll', revealAll);
+setTimeout(revealAll, 200);
+
+/* ============================================================
+   COUNTERS
+============================================================ */
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target);
+  let current = 0;
+  const step = target / 40;
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = Math.round(current) + (el.dataset.suffix || '+');
+    if (current >= target) clearInterval(timer);
+  }, 30);
+}
+
+const counterObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { animateCounter(e.target); counterObserver.unobserve(e.target); } });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+/* ============================================================
+   MOCKUP COUNTERS
+============================================================ */
+function countUp(id, target, suffix='') {
+  let n = 0;
+  const el = document.getElementById(id);
+  if (!el) return;
+  const t = setInterval(() => {
+    n = Math.min(n + Math.ceil(target/30), target);
+    el.textContent = n + suffix;
+    if (n >= target) clearInterval(t);
+  }, 50);
+}
+setTimeout(() => {
+  countUp('m-jobs', 24);
+  countUp('m-rev', 12500, '');
+  countUp('m-parts', 186);
+}, 800);
+
+/* ============================================================
+   TYPING HEADLINE
+============================================================ */
+const phrases = ['Repair Shop', 'Mobile Shop', 'Laptop Center', 'Electronics Workshop', 'UPS Service Center'];
+let phraseIdx = 0, charIdx = 0, deleting = false;
+const typingEl = document.getElementById('typing-headline');
+
+function type() {
+  const current = phrases[phraseIdx];
+  if (!deleting) {
+    typingEl.textContent = current.slice(0, ++charIdx);
+    if (charIdx === current.length) { deleting = true; setTimeout(type, 1800); return; }
+  } else {
+    typingEl.textContent = current.slice(0, --charIdx);
+    if (charIdx === 0) { deleting = false; phraseIdx = (phraseIdx + 1) % phrases.length; }
+  }
+  setTimeout(type, deleting ? 60 : 100);
+}
+setTimeout(type, 1200);
+typingEl.classList.add('typing-text');
+
+/* ============================================================
+   HAMBURGER / MOBILE MENU
+============================================================ */
+const ham = document.getElementById('ham-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+
+ham.addEventListener('click', () => {
+  ham.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+
+function closeMobileMenu() {
+  ham.classList.remove('open');
+  mobileMenu.classList.remove('open');
+}
+
+/* ============================================================
+   FAQ TOGGLE
+============================================================ */
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+/* ============================================================
+   STATUS CIRCLES — animated glow on load
+============================================================ */
+setTimeout(() => {
+  document.querySelectorAll('.status-circle').forEach((el, i) => {
+    setTimeout(() => {
+      el.style.transition = 'all 0.5s';
+      el.style.boxShadow = `0 0 24px ${getComputedStyle(el).getPropertyValue('--c') || 'rgba(249,115,22,0.4)'}`;
+    }, i * 200);
+  });
+}, 1000);
+</script>
 </body>
 </html>
